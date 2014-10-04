@@ -12,7 +12,6 @@ class Room(models.Model):
     directions = models.TextField()
 
 class Talk(models.Model):
-    event = models.ForeignKey(Event)
     room = models.ForeignKey(Room)
     timeslot = models.IntegerField()
     title = models.CharField(max_length=1024)
