@@ -39,6 +39,9 @@ INSTALLED_APPS = (
     'bonfiremanager',
 )
 
+if DEBUG:
+    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar.apps.DebugToolbarConfig',)
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
