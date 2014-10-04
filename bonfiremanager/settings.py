@@ -22,7 +22,7 @@ SECRET_KEY = 'kha7vwij9icd6uq+-=h*+0@-z5f*qsa+aqt-+kai5apd*j@t^^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bonfiremanager',
 )
 
 MIDDLEWARE_CLASSES = (
