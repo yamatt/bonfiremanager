@@ -11,7 +11,10 @@
         <tbody>
             {% for room in rooms %}
             <tr>
-                {% for timeslot in timeslots %}
+                <th>
+                    {{ room }}
+                </th>
+                {% for timeslot in room.timeslots %}
                     <tr>{{ timeslot }}</tr>
                 {% endfor %}
             </tr>
