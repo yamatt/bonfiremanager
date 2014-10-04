@@ -3,6 +3,8 @@ from django.contrib import admin
 
 from bonfiremanager import views
 
+admin.autodiscover()
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'bonfiremanager.views.home', name='home'),
