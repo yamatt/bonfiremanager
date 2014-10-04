@@ -1,0 +1,21 @@
+{% extends "nav.dj.html" %}
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                {% for timeslot in event_timeslots %}
+                    <th>{{ timeslot }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                {% for timeslot in timeslots %}
+                    <tr>{{ timeslot }}</tr>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
