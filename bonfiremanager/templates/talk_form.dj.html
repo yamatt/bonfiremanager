@@ -1,7 +1,16 @@
 {% extends "nav.dj.html" %}
+{% block title %}Add Talk - Bonfire Manager{% endblock %}
+{% load bootstrap3 %}
 {% block body %}
-<form method="post" action="{% url 'talk-add' %}">
-    {{ form }}
-    <button>Submit</button>
-</form>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="{% url 'talk-add' %}">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button>Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
