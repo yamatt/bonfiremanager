@@ -1,10 +1,10 @@
 from django.db import models
 
-class TimeSlots(models.Model):
+class TimeSlot(models.Model):
     pass
 
 class Event(models.Model):
-    timeslots = models.ManyToManyField(TimeSlots)
+    timeslots = models.ManyToManyField(TimeSlot)
 
 class Room(models.Model):
     event = models.ForeignKey(Event)
