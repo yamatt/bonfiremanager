@@ -1,0 +1,7 @@
+{% extends "nav.dj.html" %}
+{% block body %}
+<form method="post" action="{% url 'talk-add' %}">
+    {{ form }}
+    <button>Submit</button>
+</form>
+{% endblock %}

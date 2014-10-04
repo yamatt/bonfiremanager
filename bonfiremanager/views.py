@@ -1,6 +1,6 @@
 from django.views import generic
 
-from bonfiremanager import models
+from bonfiremanager import forms, models
 
 class IndexView(generic.ListView):
     model = models.Room
@@ -15,3 +15,8 @@ class IndexView(generic.ListView):
         kwargs.setdefault("event_timeslots", self.get_event_timeslots)
 
         return super(IndexView, self).get_context_data(**kwargs)
+
+class AddTalkView(generic.CreateView):
+    model = models.Talk
+    form_class = forms.TalkForm
+    template_name = "talk_form.dj.html"
