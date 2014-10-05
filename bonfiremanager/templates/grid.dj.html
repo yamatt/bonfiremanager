@@ -13,7 +13,11 @@
             {% for room in rooms %}
             <tr>
                 <th>
-                    {{ room }}
+                    <ul>
+                    {% for talk in room %}
+                        <li>{{ talk }}</li>
+                    {% endfor %}
+                    </ul>
                 </th>
                 {% for timeslot in room.timeslots %}
                     <tr>{{ timeslot }}</tr>
