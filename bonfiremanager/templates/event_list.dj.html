@@ -4,11 +4,12 @@
 {% block container %}
     <div class="row">
         <div class="col-md-12">
-            <form method="post" action="{% url 'talk-add' event_slug=event_slug %}">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                <button>Submit</button>
-            </form>
+            <h2>Events</h2>
+            <ul>
+            {% for event in events %}
+                <li><a href="{% url 'event-index' event.slug %}">{{ event }}</a></li>
+            {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

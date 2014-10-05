@@ -10,6 +10,8 @@ class EventSlugMixin(object):
 
 class IndexView(generic.ListView):
     model = models.Event
+    template_name = "event_list.dj.html"
+    context_object_name = "events"
 
 class EventView(EventSlugMixin, generic.ListView):
     model = models.Room
