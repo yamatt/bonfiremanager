@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.views import generic
 
 from bonfiremanager import forms, models
@@ -13,22 +14,15 @@ class IndexView(generic.ListView):
     template_name = "event_list.dj.html"
     context_object_name = "events"
 
-class EventView(EventSlugMixin, generic.ListView):
-    model = models.Room
+class EventView(EventSlugMixin, generic.DetailView):
+    model = models.Event
     template_name = "grid.dj.html"
-    context_object_name = "rooms"
+    context_object_name = "event"
+    slug_url_kwarg = "event_slug"
 
     def get_queryset(self):
-        qs = super(EventView, self).get_queryset().filter(event__slug=self.kwargs["event_slug"])
-        return qs
-
-    def get_event_timeslots(self):
-        return models.TimeSlot.objects.filter(event__slug=self.kwargs["event_slug"])
-
-    def get_context_data(self, **kwargs):
-        kwargs.setdefault("event_timeslots", self.get_event_timeslots)
-
-        return super(EventView, self).get_context_data(**kwargs)
+        qs = super(EventView, self).get_queryset().annotate(room_count=Count("room__id"))
+        return qs.prefetch_related("room_set", "timeslot_set", "room_set__talk_set")
 
 class AddTalkView(EventSlugMixin, generic.CreateView):
     model = models.Talk

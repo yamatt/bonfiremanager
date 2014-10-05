@@ -1,28 +1,23 @@
 {% extends "nav.dj.html" %}
 {% block title %}Grid - Bonfire Manager{% endblock %}
 {% block body %}
-    <table>
+    <table border=1>
         <thead>
             <tr>
-                {% for timeslot in event_timeslots %}
-                    <th>{{ timeslot }}</th>
+                <th>&nbsp;</th>
+                {% for timeslot in event.get_talk_grid.0|slice:"1:" %}
+                    <th>{{ timeslot.name }}</th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for room in rooms %}
-            <tr>
-                <th>
-                    <ul>
-                    {% for talk in room %}
-                        <li>{{ talk }}</li>
+            {% for room in event.get_talk_grid|slice:"1:" %}
+                <tr>
+                    <td><b>{{ room.0.name }}</b></td>
+                    {% for talk in room|slice:"1:" %}
+                        <td>{{ talk.title }}</td>
                     {% endfor %}
-                    </ul>
-                </th>
-                {% for timeslot in room.timeslots %}
-                    <tr>{{ timeslot }}</tr>
-                {% endfor %}
-            </tr>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
