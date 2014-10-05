@@ -33,4 +33,4 @@ class Talk(models.Model):
     title = models.CharField(max_length=1024, unique=True)
     
     def __str__(self):
-        return "{0} in {1}".format(self.title, self.room)
+        return "{0} in {1} at {2}".format(self.title, self.room, self.timeslot)
