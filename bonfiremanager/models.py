@@ -9,18 +9,18 @@ class Event(models.Model):
     
 class TimeSlot(models.Model):
     event = models.ForeignKey(Event)
-    bookable = models.BooleanField(default=True)
-    end = models.DateTimeField()
     name = models.CharField(max_length=1024)
+    bookable = models.BooleanField(default=True)
     start = models.DateTimeField()
+    end = models.DateTimeField()
     
     def __str__(self):
         return "{0} ({1})".format(self.name, self.event)
 
 class Room(models.Model):
     event = models.ForeignKey(Event)
-    directions = models.TextField()
     name = models.CharField(max_length=1024)
+    directions = models.TextField(blank=True)
     
     def __str__(self):
         return "{0} ({1})".format(self.name, self.event)
