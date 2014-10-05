@@ -27,9 +27,9 @@ class Room(models.Model):
 
 class Talk(models.Model):
     room = models.ForeignKey(Room, null=True, blank=True)
+    timeslot = models.ForeignKey(TimeSlot, null=True, blank=True)
     description = models.TextField()
     slug = models.SlugField(max_length=1024)
-    timeslot = models.IntegerField(default=0)
     title = models.CharField(max_length=1024, unique=True)
     
     def __str__(self):
