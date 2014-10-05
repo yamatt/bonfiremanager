@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <form method="post" action="{% url 'talk-add' %}">
+            <form method="post" action="{% url 'talk-add' event_slug=event_slug %}">
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 <button>Submit</button>
