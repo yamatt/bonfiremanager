@@ -1,5 +1,5 @@
 {% extends "nav.dj.html" %}
-{% block title %}Grid - Bonfire Manager{% endblock %}
+{% block title %}{{ event }} - Grid - Bonfire Manager{% endblock %}
 {% block body %}
     <table class="table table-bordered table-striped">
         <thead>
@@ -13,7 +13,7 @@
         <tbody>
             {% for room in event.get_talk_grid|slice:"1:" %}
                 <tr>
-                    <td><b>{{ room.0.name }}</b></td>
+                    <th>{{ room.0.name }}</th> <!-- room name -->
                     {% for talk in room|slice:"1:" %}
                         <td>{{ talk.title }}</td>
                     {% endfor %}
