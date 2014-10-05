@@ -37,3 +37,10 @@ class AddTalkView(EventSlugMixin, generic.CreateView):
 
     def get_initial(self):
         return {"event": models.Event.objects.get(slug=self.kwargs["event_slug"])}
+        
+class TalkView(EventSlugMixin, generic.DetailView):
+    model = models.Talk
+    template_name = "talk.dj.html"
+    context_object_name = "talk"
+    slug_url_kwarg = "talk_slug"
+
