@@ -1,0 +1,15 @@
+{% extends "container.dj.html" %}
+{% block title %}{{ talk.title }} - Talk - Bonfire Manager{% endblock %}
+{% load bootstrap3 %}
+{% block container %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ talk.title }}</h2>
+            <p>{{ talk.description }}</p>
+            <h3>Where</h3>
+            <p>{{ talk.room.name }}</p>
+            <h3>When</h3>
+            <p>From {{ talk.timeslot.start }} to {{ talk.timeslot.end }}</p>
+        </div>
+    </div>
+{% endblock %}
