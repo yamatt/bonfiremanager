@@ -35,11 +35,11 @@ class Migration(migrations.Migration):
             name='Talk',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('timeslot', models.IntegerField()),
+                ('timeslot', models.IntegerField(default=0)),
                 ('title', models.CharField(max_length=1024)),
                 ('description', models.TextField()),
                 ('event', models.ForeignKey(to='bonfiremanager.Event')),
-                ('room', models.ForeignKey(to='bonfiremanager.Room')),
+                ('room', models.ForeignKey(blank=True, to='bonfiremanager.Room', null=True)),
             ],
             options={
             },
