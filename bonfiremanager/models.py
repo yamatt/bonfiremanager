@@ -9,18 +9,23 @@ class Event(models.Model):
 
         Recommend that you do a prefetch_related("room", "timeslot", "room__talk") to
         reduce fetch-time. You can also annotate "room_count" on too :)"""
-        rows = []
-        times = [None]
-        times.extend(self.timeslot_set.all())
-        rows.append(times)
-        rows.extend([[None]*len(rows[0])] * self.get_room_count())
-        for row_index, room in enumerate(self.room_set.all()):
-            rows[row_index+1][0] = room
-            for talk in room.talk_set.all():
-                column_index = rows[0].index(talk.timeslot)
-                rows[row_index+1][column_index] = talk
-
-        return rows
+        if hasattr(self, "_grid"):
+            return self._grid
+        else:
+            rows = []
+            times = [None]
+            times.extend(self.timeslot_set.all())
+            rows.append(times)
+            rows.extend([[None]*len(rows[0])] * self.get_room_count())
+            print self.room_set.all()
+            for row_index, room in enumerate(self.room_set.all().distinct()):
+                print room
+                rows[row_index+1][0] = room
+                for talk in room.talk_set.all():
+                    column_index = rows[0].index(talk.timeslot)
+                    rows[row_index+1][column_index] = talk
+            self._grid = rows
+            return rows
 
     def get_room_count(self):
         if hasattr(self, "room_count"):
