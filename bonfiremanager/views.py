@@ -23,7 +23,7 @@ class EventView(EventSlugMixin, generic.ListView):
         return qs
 
     def get_event_timeslots(self):
-        return models.TimeSlot.objects.get(event__slug=self.kwargs["event_slug"])
+        return models.TimeSlot.objects.filter(event__slug=self.kwargs["event_slug"])
 
     def get_context_data(self, **kwargs):
         kwargs.setdefault("event_timeslots", self.get_event_timeslots)
