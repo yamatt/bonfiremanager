@@ -16,10 +16,8 @@ class Event(models.Model):
             times = [None]
             times.extend(self.timeslot_set.all())
             rows.append(times)
-            rows.extend([[None]*len(rows[0])] * self.get_room_count())
-            print self.room_set.all()
+            rows.extend([[None for i in xrange(0, len(rows[0]))] for i in xrange(0, self.get_room_count())])
             for row_index, room in enumerate(self.room_set.all().distinct()):
-                print room
                 rows[row_index+1][0] = room
                 for talk in room.talk_set.all():
                     column_index = rows[0].index(talk.timeslot)
