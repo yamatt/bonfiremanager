@@ -11,11 +11,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for room in event.get_talk_grid|slice:"1:" %}
+            <!-- assigned talks -->
+            {% for rooms in event.get_talk_grid|slice:"1:" %}
                 <tr>
-                    <th>{{ room.0.name }}</th> <!-- room name -->
-                    {% for talk in room|slice:"1:" %}
-                        <td>{{ talk.title }}</td>
+                    <th>{{ rooms.0.name }}</th> <!-- room name -->
+                    {% for talk in rooms|slice:"1:" %}
+                        <td>{% if talk %}<a href="{% url 'talk' event.slug talk.slug %}">{{ talk.title }}</a>{% endif %}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}
