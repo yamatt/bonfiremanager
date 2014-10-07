@@ -22,7 +22,7 @@ class EventView(EventSlugMixin, generic.DetailView):
 
     def get_queryset(self):
         qs = super(EventView, self).get_queryset().annotate(room_count=Count("room__id"))
-        return qs.prefetch_related("room_set", "timeslot_set", "room_set__talk_set")
+        return qs.prefetch_related("room_set", "timeslot_set", "timeslot_set__talk_set", "room_set__talk_set")
 
 class AddTalkView(EventSlugMixin, generic.CreateView):
     model = models.Talk
