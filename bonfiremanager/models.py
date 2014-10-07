@@ -20,18 +20,18 @@ class Event(models.Model):
         if hasattr(self, "_grid"):
             return self._grid
         else:
-            rows = []
+            rooms = []
             times = [None]
             times.extend(self.timeslot_set.all())
-            rows.append(times)
-            rows.extend([[None for i in xrange(0, len(rows[0]))] for i in xrange(0, self.get_room_count())])
-            for row_index, room in enumerate(self.room_set.all().distinct()):
-                rows[row_index+1][0] = room
+            rooms.append(times)
+            rooms.extend([[None for i in xrange(0, len(rooms[0]))] for i in xrange(0, self.get_room_count())])
+            for room_index, room in enumerate(self.room_set.all().distinct()):
+                rooms[room_index+1][0] = room
                 for talk in room.talk_set.all():
-                    column_index = rows[0].index(talk.timeslot)
-                    rows[row_index+1][column_index] = talk
-            self._grid = rows
-            return rows
+                    column_index = rooms[0].index(talk.timeslot)
+                    rooms[room_index+1][column_index] = talk
+            self._grid = rooms
+            return rooms
 
     def get_room_count(self):
         if hasattr(self, "room_count"):
