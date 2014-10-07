@@ -7,7 +7,7 @@
             <h2>{{ talk.title }}</h2>
             <p>{{ talk.description }}</p>
             <h3>Where</h3>
-            <p>{{ talk.room.name }}</p>
+            <p>{{ talk.room.name|default:"Unassigned" }}</p>
             <h3>When</h3>
             <p>From {{ talk.timeslot.start }} to {{ talk.timeslot.end }}</p>
         </div>
