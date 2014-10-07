@@ -9,7 +9,7 @@
             <h3>Where</h3>
             <p>{{ talk.room.name|default:"Unassigned" }}</p>
             <h3>When</h3>
-            <p>From {{ talk.timeslot.start }} to {{ talk.timeslot.end }}</p>
+            <p>From <time datetime="{{ talk.timeslot.start|date:"c" }}">{{ talk.timeslot.start }}</time> to <time datetime="{{ talk.timeslot.end|date:"c" }}">{{ talk.timeslot.end }}</time></p>
         </div>
     </div>
 {% endblock %}
