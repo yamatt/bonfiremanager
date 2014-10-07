@@ -63,9 +63,10 @@ class Room(models.Model):
 class Talk(models.Model):
     room = models.ForeignKey(Room, null=True, blank=True)
     timeslot = models.ForeignKey(TimeSlot, null=True, blank=True)
-    description = models.TextField()
-    slug = models.SlugField(max_length=1024)
     title = models.CharField(max_length=1024, unique=True)
+    slug = models.SlugField(max_length=1024)
+    description = models.TextField()
+    score = models.IntegerField(default=0)
 
     def __str__(self):
         return "{0} in {1} at {2}".format(self.title, self.room, self.timeslot)
