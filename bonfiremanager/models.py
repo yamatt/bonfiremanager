@@ -3,6 +3,14 @@ from django.db import models
 class Event(models.Model):
     name = models.CharField(max_length=1024, unique=True)
     slug = models.SlugField(max_length=1024)
+    
+    def get_unassigned_talks(self):
+        """Gets all talks grouped by timeslot
+        """
+        times = []
+        for timeslot in self.timeslot_set.all():
+            times.append(timeslot.talk_set.filter(room__isnull=True))
+        return times
 
     def get_talk_grid(self):
         """Get the talk grid
