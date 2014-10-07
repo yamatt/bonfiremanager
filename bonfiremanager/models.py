@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 class Event(models.Model):
     name = models.CharField(max_length=1024, unique=True)
@@ -69,4 +70,4 @@ class Talk(models.Model):
     score = models.IntegerField(default=0)
 
     def __str__(self):
-        return "{0} in {1} at {2}".format(self.title, self.room, self.timeslot)
+        return "{0} in {1} at {2}".format(self.title, self.room if self.room else "no room", self.timeslot)
