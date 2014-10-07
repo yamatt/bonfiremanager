@@ -11,6 +11,18 @@
             </tr>
         </thead>
         <tbody>
+            <!-- unassigned talks -->
+            <tr>
+                <th>Unassigned</th>
+                {% for timeslot in event.get_unassigned_talks %}
+                <td>
+                    <ul class="list-group">
+                        {% for talk in timeslot %}
+                        <li class="list-group-item"><a href="{% url 'talk' event.slug talk.slug %}">{{ talk.title }}</a><span class="badge">{{ talk.score }}</span></li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </tr>
             <!-- assigned talks -->
             {% for rooms in event.get_talk_grid|slice:"1:" %}
                 <tr>
