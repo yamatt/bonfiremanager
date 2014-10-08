@@ -9,7 +9,11 @@
             <h3>Where</h3>
             <p>{{ talk.room.name|default:"Unassigned" }}</p>
             <h3>When</h3>
+            {% if talk.timeslot.started and talk.timeslot.ended %}
             <p>Starts in <time datetime="{{ talk.timeslot.start|date:"c" }}">{{ talk.timeslot.start|timeuntil }}</time> and ends <time datetime="{{ talk.timeslot.end|date:"c" }}">{{ talk.timeslot.end|timeuntil:talk.timeslot.start }}</time> after.</p>
+            {% else %}
+            <p>Talk has finished.</p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
