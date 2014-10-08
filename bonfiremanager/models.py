@@ -63,6 +63,7 @@ class TimeSlot(models.Model):
 class Room(models.Model):
     event = models.ForeignKey(Event)
     name = models.CharField(max_length=1024)
+    slug = models.SlugField(max_length=1024)
     directions = models.TextField(blank=True)
     
     def __str__(self):

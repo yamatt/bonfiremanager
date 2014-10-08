@@ -38,3 +38,7 @@ class TalkView(EventSlugMixin, generic.DetailView):
     context_object_name = "talk"
     slug_url_kwarg = "talk_slug"
 
+class RoomView(EventSlugMixin, generic.DetailView):
+    model = models.Room
+    template_name = "room.dj.html"
+    context_object_name = "room"

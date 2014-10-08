@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^(?P<event_slug>[a-zA-Z0-9_-]+)$', views.EventView.as_view(), name='event-index'),
     url(r'^(?P<event_slug>[a-zA-Z0-9_-]+)/add$', views.AddTalkView.as_view(), name='talk-add'),
-    url(r'^(?P<event_slug>[a-zA-Z0-9_-]+)/(?P<talk_slug>[a-zA-Z0-9_-]+)$', views.TalkView.as_view(), name='talk'),
+    url(r'^(?P<event_slug>[a-zA-Z0-9_-]+)/talk/(?P<talk_slug>[a-zA-Z0-9_-]+)$', views.TalkView.as_view(), name='talk'),
+    url(r'^(?P<event_slug>[a-zA-Z0-9_-]+)/room/(?P<room_slug>[ a-zA-Z0-9_-]+)$', views.RoomView.as_view(), name='room'),
     url(r'^admin/', include(admin.site.urls)),
 )

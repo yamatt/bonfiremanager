@@ -1,0 +1,11 @@
+{% extends "container.dj.html" %}
+{% block title %}{{ room.name }} - Room - Bonfire Manager{% endblock %}
+{% load bootstrap3 %}
+{% block container %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ room.name }}</h2>
+            <p>{{ room.directions }}</p>
+        </div>
+    </div>
+{% endblock %}

@@ -14,6 +14,7 @@ class TimeSlotAdmin(admin.ModelAdmin):
     list_filter = ("event",)
 
 class RoomAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
     list_filter = ("event",)
 
 admin.site.register(models.Event, EventAdmin)

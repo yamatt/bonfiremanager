@@ -7,7 +7,11 @@
             <h2>{{ talk.title }}</h2>
             <p>{{ talk.description }}</p>
             <h3>Where</h3>
-            <p>{{ talk.room.name|default:"Unassigned" }}</p>
+            {% if talk.room %}
+            <p><a href="{% url 'room' event_slug=talk.timeslot.event.slug room_slug=talk.room.name %}">{{ talk.room.name }}</a></p>
+            {% else %}
+            <p>No room assigned.</p>
+            {% endif %}
             <h3>When</h3>
             {% if talk.timeslot.started and talk.timeslot.ended %}
             <p>Starts in <time datetime="{{ talk.timeslot.start|date:"c" }}">{{ talk.timeslot.start|timeuntil }}</time> and ends <time datetime="{{ talk.timeslot.end|date:"c" }}">{{ talk.timeslot.end|timeuntil:talk.timeslot.start }}</time> after.</p>
