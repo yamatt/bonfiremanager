@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from datetime import datetime
 
 class Event(models.Model):
     name = models.CharField(max_length=1024, unique=True)
@@ -49,6 +50,12 @@ class TimeSlot(models.Model):
     bookable = models.BooleanField(default=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
+    
+    def started(self):
+        return self.start < datetime.utcnow()
+    
+    def ended(self):
+        return self.end < datetime.utcnow()
     
     def __str__(self):
         return "{0} ({1})".format(self.name, self.event)
