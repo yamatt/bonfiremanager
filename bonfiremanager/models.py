@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 from datetime import datetime
 
 class Event(models.Model):
@@ -76,6 +77,13 @@ class Talk(models.Model):
     slug = models.SlugField(max_length=1024)
     description = models.TextField()
     score = models.IntegerField(default=0)
+    
+    def save(self):
+        """Over-riding to add talk slug so can be added from template
+        """
+        if hasattr(self, "slug") and not self.slug:
+            self.slug = slugify(self.title)
+        super(Talk, self).save()
 
     def __str__(self):
         return "{0} in {1} at {2}".format(self.title, self.room if self.room else "no room", self.timeslot)
