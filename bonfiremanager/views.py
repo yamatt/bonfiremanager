@@ -1,5 +1,6 @@
 from django.db.models import Count
 from django.views import generic
+from django.core.urlresolvers import reverse
 
 from bonfiremanager import forms, models
 
@@ -31,6 +32,9 @@ class AddTalkView(EventSlugMixin, generic.CreateView):
 
     def get_initial(self):
         return {"event": models.Event.objects.get(slug=self.kwargs["event_slug"])}
+
+    def get_success_url(self):
+        return reverse("talk", kwargs={"event_slug": self.kwargs["event_slug"], "talk_slug": self.object.slug})
         
 class TalkView(EventSlugMixin, generic.DetailView):
     model = models.Talk
