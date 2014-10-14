@@ -6,6 +6,7 @@
         <div class="col-md-12">
             <h2>{{ talk.title }}</h2>
             <p>{{ talk.description }}</p>
+            <h3>Votes: {{ talk.score }}</h3>
             <h3>Where</h3>
             {% if talk.room %}
             <p><a href="{% url 'room' event_slug=talk.timeslot.event.slug room_slug=talk.room.name %}">{{ talk.room.name }}</a></p>
