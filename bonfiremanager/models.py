@@ -83,7 +83,7 @@ class Talk(models.Model):
         """
         if hasattr(self, "slug") and not self.slug:
             self.slug = slugify(self.title)
-        super(Talk, self).save()
+        return super(Talk, self).save()
 
     def __str__(self):
         return "{0} in {1} at {2}".format(self.title, self.room if self.room else "no room", self.timeslot)
