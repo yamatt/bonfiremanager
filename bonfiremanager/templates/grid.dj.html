@@ -26,7 +26,7 @@
             <!-- assigned talks -->
             {% for rooms in event.get_talk_grid|slice:"1:" %}
                 <tr>
-                    <th>{{ rooms.0.name }}</th> <!-- room name -->
+                    <th>{{ rooms.0.name }} <p class="help-block" style="font-weight: 400">{{ rooms.0.directions }}</p></th> <!-- room name -->
                     {% for talk in rooms|slice:"1:" %}
                         <td>{% if talk %}<a href="{% url 'talk' event.slug talk.slug %}">{{ talk.title }}</a> <span class="badge" title="score">{{ talk.score }}</span>{% endif %}</td>
                     {% endfor %}
