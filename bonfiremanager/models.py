@@ -24,15 +24,23 @@ class Event(models.Model):
             return self._grid
         else:
             rooms = []
+
+            # create the first row
             times = [None]
             times.extend(self.timeslot_set.all())
             rooms.append(times)
+
+            # add a grid of None
             rooms.extend([[None for i in xrange(0, len(rooms[0]))] for i in xrange(0, self.get_room_count())])
+
+            # replace grid cells with talks
             for room_index, room in enumerate(self.room_set.all().distinct()):
                 rooms[room_index+1][0] = room
                 for talk in room.talk_set.all():
                     column_index = rooms[0].index(talk.timeslot)
                     rooms[room_index+1][column_index] = talk
+
+            # store grid locally and return
             self._grid = rooms
             return rooms
 
