@@ -72,7 +72,7 @@ class Room(models.Model):
 
 class Talk(models.Model):
     room = models.ForeignKey(Room, null=True, blank=True)
-    timeslot = models.ForeignKey(TimeSlot, null=True, blank=True)
+    timeslot = models.ForeignKey(TimeSlot)
     title = models.CharField(max_length=1024, unique=True)
     slug = models.SlugField(max_length=1024)
     description = models.TextField()
