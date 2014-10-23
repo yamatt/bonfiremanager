@@ -2,3 +2,4 @@ Django
 django-autoslug
 django-bootstrap3
 django-debug-toolbar
+django-tastypie

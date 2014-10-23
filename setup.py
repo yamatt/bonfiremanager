@@ -16,6 +16,7 @@ setup(
         "django-autoslug",
         "django-bootstrap3",
         "django-debug-toolbar",
+        "django-tastypie",
     ],
     license = "AGPLv3",
     classifiers = [
