@@ -19,7 +19,8 @@ class Event(models.Model):
         """Get the talk grid
 
         Recommend that you do a prefetch_related("room", "timeslot", "room__talk") to
-        reduce fetch-time. You can also annotate "room_count" on too :)"""
+        reduce fetch-time. You can also annotate "room_count" on too :)
+        """
         if hasattr(self, "_grid"):
             return self._grid
         else:
@@ -45,6 +46,10 @@ class Event(models.Model):
             return rooms
 
     def get_room_count(self):
+        """Grab room count
+
+        Will use "room_count" if it's been annotated on the object
+        """
         if hasattr(self, "room_count"):
             return self.room_count
         else:
@@ -68,6 +73,9 @@ class TimeSlot(models.Model):
     
     def __str__(self):
         return "{0} ({1})".format(self.name, self.event)
+
+    class Meta:
+        ordering = ["start"]
 
 class Room(models.Model):
     event = models.ForeignKey(Event)
