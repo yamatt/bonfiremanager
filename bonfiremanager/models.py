@@ -25,10 +25,15 @@ class Event(models.Model):
             return self._grid
         else:
             rooms = []
+            timeslots = self.timeslot_set.all()
+
+            # list IDs of timeslot objects for quick accessing for timeslot index
+            timeslot_index = [None]
+            timeslot_index.extend([timeslot.id for timeslot in timeslots])
 
             # create the first row
             times = [None]
-            times.extend(self.timeslot_set.all())
+            times.extend(timeslots)
             rooms.append(times)
 
             # add a grid of None
@@ -38,7 +43,7 @@ class Event(models.Model):
             for room_index, room in enumerate(self.room_set.all()):
                 rooms[room_index+1][0] = room
                 for talk in room.talk_set.all():
-                    column_index = rooms[0].index(talk.timeslot)
+                    column_index = timeslot_index.index(talk.timeslot_id)
                     rooms[room_index+1][column_index] = talk
 
             # store grid locally and return
