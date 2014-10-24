@@ -1,3 +1,4 @@
 Django
-django-debug-toolbar
+django-autoslug
 django-bootstrap3
+django-debug-toolbar

@@ -12,9 +12,10 @@ setup(
     url = 'https://github.com/yamatt/bonfiremanager/',
     packages=["bonfiremanager"],
     install_requires = [
-        "django>=1.7",
+        "Django>=1.7",
+        "django-autoslug",
+        "django-bootstrap3",
         "django-debug-toolbar",
-        "django-bootstrap3"
     ],
     license = "AGPLv3",
     classifiers = [

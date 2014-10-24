@@ -1,11 +1,14 @@
+from datetime import datetime
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
-from datetime import datetime
+
+from autoslug import AutoSlugField
 
 class Event(models.Model):
     name = models.CharField(max_length=1024, unique=True)
-    slug = models.SlugField(max_length=1024)
+    slug = AutoSlugField(max_length=1024, populate_from="name", unique=True)
     
     def get_unassigned_talks(self):
         """Gets all talks grouped by timeslot
@@ -85,7 +88,7 @@ class TimeSlot(models.Model):
 class Room(models.Model):
     event = models.ForeignKey(Event)
     name = models.CharField(max_length=1024)
-    slug = models.SlugField(max_length=1024)
+    slug = AutoSlugField(max_length=1024, populate_from="name", unique_with="event")
     directions = models.TextField(blank=True)
     
     def __str__(self):
@@ -94,17 +97,13 @@ class Room(models.Model):
 class Talk(models.Model):
     room = models.ForeignKey(Room, null=True, blank=True)
     timeslot = models.ForeignKey(TimeSlot)
-    title = models.CharField(max_length=1024, unique=True)
-    slug = models.SlugField(max_length=1024)
+    title = models.CharField(max_length=1024)
+    slug = AutoSlugField(max_length=1024, populate_from="title", unique_with="room__event")
     description = models.TextField()
     score = models.IntegerField(default=0)
-    
-    def save(self):
-        """Over-riding to add talk slug so can be added from template
-        """
-        if hasattr(self, "slug") and not self.slug:
-            self.slug = slugify(self.title)
-        return super(Talk, self).save()
+
+    class Meta:
+        unique_together = (("title", "timeslot"),)
 
     def __str__(self):
         return "{0} in {1} at {2}".format(self.title, self.room if self.room else "no room", self.timeslot)
