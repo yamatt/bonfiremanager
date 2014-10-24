@@ -11,6 +11,8 @@ class EventResource(ModelResource):
         queryset = models.Event.objects.all()
         authentication = Authentication()
         authorization = ReadOnlyAuthorization()
+        detail_uri_name = "slug" # use slug field instead of PK
+        excludes = ["id"]
 
 class TimeSlotResource(ModelResource):
     class Meta:
