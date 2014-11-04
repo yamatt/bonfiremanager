@@ -36,11 +36,15 @@ class AddTalkView(EventSlugMixin, generic.CreateView):
     def get_success_url(self):
         return reverse("talk", kwargs={"event_slug": self.kwargs["event_slug"], "talk_slug": self.object.slug})
         
-class TalkView(EventSlugMixin, generic.DetailView):
+class TalkView(EventSlugMixin, generic.UpdateView):
     model = models.Talk
     template_name = "talk.dj.html"
     context_object_name = "talk"
     slug_url_kwarg = "talk_slug"
+    form_class = forms.VoteForm
+
+    def get_success_url(self):
+        return reverse("talk", kwargs={"event_slug": self.kwargs["event_slug"], "talk_slug": self.object.slug})
 
 class RoomView(EventSlugMixin, generic.DetailView):
     model = models.Room
