@@ -20,8 +20,7 @@ class TalkResource(ModelResource):
         """Voting endpoint"""
         self.method_check(request, allowed=["post"])
         self.throttle_check(request)
-        raise Exception(kwargs)
-        # we don't know whether we're going to use PKs or slugs
+
         # so grab the detail_uri_name setting from Meta
         filters = {self._meta.detail_uri_name: kwargs[self._meta.detail_uri_name]}
         models.Talk.objects.filter(**filters).update(score=F("score")+1)
