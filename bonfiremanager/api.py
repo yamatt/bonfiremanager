@@ -38,6 +38,8 @@ class TalkResource(ModelResource):
         queryset = models.Talk.objects.all()
         authentication = Authentication()
         authorization = ReadOnlyAuthorization()
+        detail_uri_name = "slug" # use slug field instead of PK
+        excludes = ["id"]
 
 class TimeSlotResource(ModelResource):
     talks = fields.ToManyField(TalkResource, "talk_set")
@@ -58,6 +60,8 @@ class RoomResource(ModelResource):
         queryset = models.Room.objects.all()
         authentication = Authentication()
         authorization = ReadOnlyAuthorization()
+        detail_uri_name = "slug" # use slug field instead of PK
+        excludes = ["id"]
 
 class EventResource(ModelResource):
     timeslots = fields.ToManyField(TimeSlotResource, "timeslot_set", full=True, full_list=False)
