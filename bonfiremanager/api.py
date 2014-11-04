@@ -78,7 +78,7 @@ class TimeSlotResource(ModelResource):
     class Meta:
         detail_allowed_methods = ["get"]
         list_allowed_methods = ["get"]
-        queryset = models.TimeSlot.objects.all()
+        queryset = models.TimeSlot.objects.all().select_related("event")
         authentication = Authentication()
         authorization = ReadOnlyAuthorization()
 
@@ -88,7 +88,7 @@ class RoomResource(ModelResource):
     class Meta:
         detail_allowed_methods = ["get"]
         list_allowed_methods = ["get"]
-        queryset = models.Room.objects.all()
+        queryset = models.Room.objects.all().select_related("event")
         authentication = Authentication()
         authorization = ReadOnlyAuthorization()
         detail_uri_name = "slug" # use slug field instead of PK
@@ -129,7 +129,7 @@ class TalkResource(ModelResource):
     class Meta:
         detail_allowed_methods = ["get", "post"]
         list_allowed_methods = ["get", "post"]
-        queryset = models.Talk.objects.all()
+        queryset = models.Talk.objects.all().select_related("timeslot", "room")
         authentication = CsrfAuthentication()
         authorization = CreateAndReadAuthorization()
         detail_uri_name = "slug" # use slug field instead of PK
