@@ -1,3 +1,18 @@
+"""
+API
+===
+
+For the most part this is self documenting. It can be found at
+/api/<api_name>/ (at the time of writing this will be /api/v1/).
+POSTed data is excepted to be in the same format as you recieve from the API
+
+Make sure your client sets the 'Accept' and (when POSTing) 'Content-Type'
+headers to 'application/json'.
+
+Writable resources are protected by CSRF, make sure you set 'X-CSRFToekn' to the
+appropriate value.
+"""
+
 from django.conf import settings
 from django.conf.urls import url
 from django.core.urlresolvers import reverse
