@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.conf.urls import url
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F
+from django.middleware.csrf import _sanitize_token, constant_time_compare
 
 from tastypie import fields
 from tastypie import http
@@ -11,6 +13,50 @@ from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
 from bonfiremanager import models
+
+class CsrfAuthentication(object):
+    """Make sure CSRF header is there and valid
+
+    We don't have users per se, but we need to do something to prevent
+    CSRF abuse.
+    """
+    def is_authenticated(self, request, **kwargs):
+        """Check for valid CSRF token"""
+        # Cargo-culted from TastyPie (which itself was cargo-culted from Django)
+        # However, we only want CSRF, all our anons are anon.
+        if request.method in ('GET', 'HEAD', 'OPTIONS', 'TRACE'):
+            return True
+
+        csrf_token = _sanitize_token(request.COOKIES.get(settings.CSRF_COOKIE_NAME, ''))
+
+        if request.is_secure():
+            referer = request.META.get('HTTP_REFERER')
+
+            if referer is None:
+                return False
+
+            good_referer = 'https://%s/' % request.get_host()
+
+            if not same_origin(referer, good_referer):
+                return False
+
+        request_csrf_token = request.META.get('HTTP_X_CSRFTOKEN', '')
+
+        return constant_time_compare(request_csrf_token, csrf_token)
+
+    def get_identifier(self, request):
+        return "nouser"
+
+    def check_active(self, user):
+        return True
+
+class CreateAndReadAuthorization(ReadOnlyAuthorization):
+    """Create And Read, but you can't Update"""
+    def create_detail(self, object_list, bundle):
+        return True
+
+    def create_list(self, object_list, bundle):
+        return object_list
 
 class TalkResource(ModelResource):
     vote_uri = fields.CharField(readonly=True)
@@ -40,11 +86,11 @@ class TalkResource(ModelResource):
             ]
 
     class Meta:
-        detail_allowed_methods = ["get"]
-        list_allowed_methods = ["get"]
+        detail_allowed_methods = ["get", "post"]
+        list_allowed_methods = ["get", "post"]
         queryset = models.Talk.objects.all()
-        authentication = Authentication()
-        authorization = ReadOnlyAuthorization()
+        authentication = CsrfAuthentication()
+        authorization = CreateAndReadAuthorization()
         detail_uri_name = "slug" # use slug field instead of PK
         excludes = ["id"]
 
