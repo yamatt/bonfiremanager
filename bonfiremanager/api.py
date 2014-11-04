@@ -63,7 +63,10 @@ class TalkResource(ModelResource):
 
     @transaction.atomic
     def make_vote(self, request, **kwargs):
-        """Voting endpoint"""
+        """Voting endpoint
+
+        Expects no data and returns HTTP 204 to the client
+        """
         self.method_check(request, allowed=["post"])
         self.throttle_check(request)
 
