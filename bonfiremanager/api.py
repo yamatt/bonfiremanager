@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F
 
@@ -12,6 +13,8 @@ from tastypie.utils import trailing_slash
 from bonfiremanager import models
 
 class TalkResource(ModelResource):
+    vote_uri = fields.CharField(readonly=True)
+
     @transaction.atomic
     def make_vote(self, request, **kwargs):
         """Voting endpoint"""
@@ -26,6 +29,11 @@ class TalkResource(ModelResource):
         self.log_throttled_access(request)
 
         return http.HttpNoContent()
+
+    def dehydrate_vote_uri(self, bundle):
+        """Build the URL for voting"""
+        # our voting url takes the same kwargs as 'resource_uri'
+        return reverse("api_talk_vote", kwargs=self.resource_uri_kwargs(bundle))
 
     def prepend_urls(self):
         return [
