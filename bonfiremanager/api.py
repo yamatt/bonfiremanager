@@ -78,9 +78,10 @@ class TimeSlotResource(ModelResource):
     class Meta:
         detail_allowed_methods = ["get"]
         list_allowed_methods = ["get"]
-        queryset = models.TimeSlot.objects.all().select_related("event")
+        queryset = models.TimeSlot.objects.filter(bookable=True).select_related("event")
         authentication = Authentication()
         authorization = ReadOnlyAuthorization()
+        excludes = ["bookable"]
 
 class RoomResource(ModelResource):
     event = fields.ToOneField(EventResource, "event")
