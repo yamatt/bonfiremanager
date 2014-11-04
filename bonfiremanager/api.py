@@ -58,8 +58,46 @@ class CreateAndReadAuthorization(ReadOnlyAuthorization):
     def create_list(self, object_list, bundle):
         return object_list
 
+##
+# Resources
+##
+
+class EventResource(ModelResource):
+    class Meta:
+        detail_allowed_methods = ["get"]
+        list_allowed_methods = ["get"]
+        queryset = models.Event.objects.all()
+        authentication = Authentication()
+        authorization = ReadOnlyAuthorization()
+        detail_uri_name = "slug" # use slug field instead of PK
+        excludes = ["id"]
+
+class TimeSlotResource(ModelResource):
+    event = fields.ToOneField(EventResource, "event")
+
+    class Meta:
+        detail_allowed_methods = ["get"]
+        list_allowed_methods = ["get"]
+        queryset = models.TimeSlot.objects.all()
+        authentication = Authentication()
+        authorization = ReadOnlyAuthorization()
+
+class RoomResource(ModelResource):
+    event = fields.ToOneField(EventResource, "event")
+
+    class Meta:
+        detail_allowed_methods = ["get"]
+        list_allowed_methods = ["get"]
+        queryset = models.Room.objects.all()
+        authentication = Authentication()
+        authorization = ReadOnlyAuthorization()
+        detail_uri_name = "slug" # use slug field instead of PK
+        excludes = ["id"]
+
 class TalkResource(ModelResource):
     vote_uri = fields.CharField(readonly=True)
+    room = fields.ToOneField(RoomResource, "room", readonly=True, null=True)
+    timeslot = fields.ToOneField(TimeSlotResource, "timeslot")
 
     @transaction.atomic
     def make_vote(self, request, **kwargs):
@@ -94,48 +132,5 @@ class TalkResource(ModelResource):
         queryset = models.Talk.objects.all()
         authentication = CsrfAuthentication()
         authorization = CreateAndReadAuthorization()
-        detail_uri_name = "slug" # use slug field instead of PK
-        excludes = ["id"]
-
-class TimeSlotResource(ModelResource):
-    talks = fields.ToManyField(TalkResource, "talk_set")
-
-    class Meta:
-        detail_allowed_methods = ["get"]
-        list_allowed_methods = ["get"]
-        queryset = models.TimeSlot.objects.all()
-        authentication = Authentication()
-        authorization = ReadOnlyAuthorization()
-
-class RoomResource(ModelResource):
-    talks = fields.ToManyField(TalkResource, "talk_set")
-
-    class Meta:
-        detail_allowed_methods = ["get"]
-        list_allowed_methods = ["get"]
-        queryset = models.Room.objects.all()
-        authentication = Authentication()
-        authorization = ReadOnlyAuthorization()
-        detail_uri_name = "slug" # use slug field instead of PK
-        excludes = ["id"]
-
-class EventResource(ModelResource):
-    timeslots = fields.ToManyField(TimeSlotResource, "timeslot_set", full=True, full_list=False)
-    rooms = fields.ToManyField(RoomResource, "room_set", full=True, full_list=False)
-
-    # collect talks too
-    talks = fields.ToManyField(
-                TalkResource,
-                lambda bundle: models.Talk.objects.filter(timeslot__event__pk=bundle.obj.pk),
-                full=True,
-                full_list=False,
-                )
-
-    class Meta:
-        detail_allowed_methods = ["get"]
-        list_allowed_methods = ["get"]
-        queryset = models.Event.objects.all()
-        authentication = Authentication()
-        authorization = ReadOnlyAuthorization()
         detail_uri_name = "slug" # use slug field instead of PK
         excludes = ["id"]
