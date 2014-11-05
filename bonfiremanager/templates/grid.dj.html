@@ -2,9 +2,10 @@
 {% block title %}{{ event }} - Grid - Bonfire Manager{% endblock %}
 {% block body %}
     <table class="table table-bordered table-striped">
+        <caption class="hide"><h1>Rooms and Timeslots</h1></caption>
         <thead>
             <tr>
-                <th>&nbsp;</th>
+                <th>Timeslots</th>
                 {% for timeslot in event.get_talk_grid.0|slice:"1:" %}
                     <th>{{ timeslot.name }}</th>
                 {% endfor %}
@@ -13,7 +14,8 @@
         <tbody>
             <!-- unassigned talks -->
             <tr>
-                <th>Unassigned</th>
+                <th>
+                    <h2>Unassigned Talks</h2>
                 {% for timeslot in event.get_unassigned_talks %}
                 <td>
                     <div class="list-group"><!-- list item -->
