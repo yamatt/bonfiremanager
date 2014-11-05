@@ -139,8 +139,8 @@ class TalkResource(ModelResource):
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<%s>.*?)/vote%s$" % (self._meta.resource_name, self._meta.detail_uri_name, trailing_slash()), self.wrap_view('make_vote'), name="api_talk_vote"),
-            ]
+            url(r"^(?P<resource_name>{0})/(?P<{1}>.*?)/vote{2}$".format(self._meta.resource_name, self._meta.detail_uri_name, trailing_slash()), self.wrap_view('make_vote'), name="api_talk_vote"),
+        ]
 
     class Meta:
         detail_allowed_methods = ["get", "post"]
