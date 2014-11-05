@@ -18,7 +18,7 @@
       <ul class="nav navbar-nav">
         {% if event_slug %}
             <li><a href="{% url 'event-index' event_slug=event_slug %}">Grid</a></li>
-            <li><a href="{% url 'talk-add' event_slug=event_slug %}"><span class="glyphicon glyphicon-plus"></span> Add Talk</a></li>
+            <li><a href="{% url 'talk-add' event_slug=event_slug %}"><span class="glyphicon glyphicon-plus"></span>Add Talk</a></li>
         {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->
