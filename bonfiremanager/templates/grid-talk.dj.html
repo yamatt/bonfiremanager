@@ -1,0 +1,9 @@
+                            <div class="list-group-item">
+                                <span class="badge" title="votes">{{ talk.score }}</span>
+                                <h4><a href="{% url 'talk' event_slug=event.slug talk_slug=talk.slug %}">{{ talk.title }}</a></h4>
+                                <p class="list-group-item-text">{{ talk.description }}</p>
+                                <form method="POST" action="{% url 'talk' event_slug=event.slug talk_slug=talk.slug %}" class="vote">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-sm">Vote</button>
+                                </form>
+                            </div>
